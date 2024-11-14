@@ -30,7 +30,6 @@ import { ParsersModule } from './parsers/parsers.module';
     }),
     AuthModule,
     ParsersModule,
-    
   ],
   controllers: [AppController],
   providers: [AppService],
