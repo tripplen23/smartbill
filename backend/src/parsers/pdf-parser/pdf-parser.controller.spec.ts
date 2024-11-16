@@ -22,4 +22,45 @@ describe('PdfParserController', () => {
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });
+
+  it('should return a PdfParserUploadResultDto from an uploaded PDF file', async () => {
+    const text = 'test';
+    const mockFile: Express.Multer.File = {
+      buffer: Buffer.from(text),
+      originalname: 'test.pdf',
+      encoding: 'utf-8',
+      mimetype: 'application/pdf',
+      size: 5 * 1024 * 1024,
+      fieldname: 'file',
+      destination: '',
+      filename: '',
+      path: '',
+      stream: null,
+    };
+
+    const parseResult = Promise.resolve(text);
+
+    const responseResult = {
+      originalFileName: mockFile.originalname,
+      content: text,
+    };
+
+    jest.spyOn(service, 'parsePdf').mockImplementation(async () => parseResult);
+    expect(await controller.parsePdfFromUpload(mockFile)).toEqual(
+      responseResult,
+    );
+  });
+
+  it('should return a PdfParserUrlResultDto from a PDF file given from a URL', async () => {
+    const url =
+      'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf';
+    const responseResult = {
+      originalUrl: url,
+      content: 'Dummy PDF file',
+    };
+
+    expect(await controller.parsePdfFromUrl({ url: url })).toEqual(
+      responseResult,
+    );
+  });
 });

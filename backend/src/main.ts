@@ -20,6 +20,11 @@ async function bootstrap() {
   // OpenApi swagger documentation
   const config = new DocumentBuilder()
     .setTitle('Smart Bill API')
+    .setContact(
+      'Binh Nguyen',
+      'https://nguyenducbinh.vercel.app/',
+      'ducbinhnguyen23@gmail.com',
+    )
     .setDescription(
       'Smart Bill is an API that allows you to organize your data in a way that is easy to use and understand with the power of LLM',
     )
