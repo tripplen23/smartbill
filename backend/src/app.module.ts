@@ -1,21 +1,26 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { ParsersModule } from './parsers/parsers.module';
+import configuration from './config/configuration';
+import { OrganizedDataModule } from './organized-data/organized-data.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      cache: true,
+      load: [configuration],
     }),
     ThrottlerModule.forRoot([
       {
-        ttl: 60,
-        limit: 20,
+        ttl: 30,
+        limit: 200,
       },
     ]),
+
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.POSTGRES_HOST,
@@ -28,6 +33,7 @@ import { ParsersModule } from './parsers/parsers.module';
     }),
     AuthModule,
     ParsersModule,
+    OrganizedDataModule,
   ],
 })
 export class AppModule {}

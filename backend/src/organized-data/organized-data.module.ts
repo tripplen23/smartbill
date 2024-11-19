@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { LlmserviceService } from './llmservice.service';
+import { LLMService } from './llm/llm.service';
 
 @Module({
-  providers: [LlmserviceService]
+  providers: [LLMService],
 })
 export class OrganizedDataModule {}
