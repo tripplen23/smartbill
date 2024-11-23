@@ -21,15 +21,19 @@ import { OrganizedDataModule } from './organized-data/organized-data.module';
       },
     ]),
 
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: process.env.POSTGRES_HOST,
-      port: 5433,
-      username: process.env.POSTGRES_USER,
-      password: process.env.POSTGRES_PASSWORD,
-      database: process.env.POSTGRES_DB,
-      autoLoadEntities: true,
-      synchronize: process.env.NODE_ENV !== 'production',
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        type: 'postgres',
+        host: configService.get('postgres.host'),
+        port: configService.get('postgres.port'),
+        username: configService.get('postgres.username'),
+        password: configService.get('postgres.password'),
+        database: configService.get('postgres.database'),
+        autoLoadEntities: true,
+        synchronize: configService.get('nodeEnv') !== 'production',
+      }),
+      inject: [ConfigService],
     }),
     AuthModule,
     ParsersModule,

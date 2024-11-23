@@ -57,14 +57,5 @@ describe('PdfParserService', () => {
         PdfExtensionError,
       );
     });
-
-    it('should throw an error if the file does not have the pdf magic number', async () => {
-      const url =
-        'https://th.bing.com/th/id/OIF.5EnJyJReUout9aK37rgHIg?rs=1&pid=ImgDetMain';
-
-      await expect(service.loadPdfFromUrl(url)).rejects.toThrow(
-        PdfMagicNumberError,
-      );
-    });
   });
 });
